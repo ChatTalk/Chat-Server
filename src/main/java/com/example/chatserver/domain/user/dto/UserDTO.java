@@ -3,6 +3,7 @@ package com.example.chatserver.domain.user.dto;
 import com.example.chatserver.domain.user.entity.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -21,4 +22,12 @@ public class UserDTO {
     private String phone;
 
     private UserRoleEnum role;
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Login {
+        private String email;
+        private String password;
+    }
 }
