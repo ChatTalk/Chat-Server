@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return new UserDetailsImpl(userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("회원을 찾을 수 없음.")));
+                .orElseThrow(() -> new UsernameNotFoundException("회원을 찾을 수 없음. " + username)));
     }
 
     @Override

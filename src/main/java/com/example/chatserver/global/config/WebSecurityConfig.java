@@ -7,12 +7,16 @@ import com.example.chatserver.global.security.filter.CustomLoginFilter;
 import com.example.chatserver.global.security.filter.JwtAuthenticationFilter;
 import com.example.chatserver.global.security.filter.JwtAuthorizationFilter;
 import com.example.chatserver.global.security.filter.JwtExceptionFilter;
+import com.example.chatserver.global.security.handler.CustomLogoutHandler;
 import com.example.chatserver.global.security.service.JwtTokenService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -21,6 +25,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -28,10 +33,14 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import static com.example.chatserver.global.constant.Constants.COOKIE_AUTH_HEADER;
+import static com.example.chatserver.global.constant.Constants.REDIS_REFRESH_KEY;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
@@ -45,6 +54,8 @@ public class WebSecurityConfig {
     private final UserDetailsService userDetailsService;
     private final JwtTokenService jwtTokenService;
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final CustomLogoutHandler customLogoutHandler;
+    private final RedisTemplate<String, String> redisTemplate;
     // 필터단 예외
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint; // 인증 예외 커스텀 메시지 던지기
     private final JwtAccessDenyHandler jwtAccessDenyHandler; // 인가 예외 커스텀 메시지 던지기(역할별 접근권한같은)
@@ -88,12 +99,15 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated()
         );
 
-        http.logout(logout -> logout
-                .logoutUrl("/api/users/logout")  // 로그아웃 API 엔드포인트
-                .logoutSuccessHandler((req, res, auth) -> {
-                    res.setStatus(HttpServletResponse.SC_OK);  // 로그아웃 성공 시 200 OK 응답
-                })
-        );
+        http.logout(logout -> {
+                    logout
+                            .logoutUrl("/api/users/logout") // 로그아웃 API 엔드포인트
+                            .addLogoutHandler(customLogoutHandler)
+                            .logoutSuccessHandler((req, res, auth) -> {
+                                res.setStatus(HttpServletResponse.SC_OK);  // 로그아웃 성공 시 200 OK 응답
+                            })
+                            .deleteCookies(COOKIE_AUTH_HEADER);
+        });
 
         // 필터 체인에 필터 추가 및 순서 지정
         http.addFilterBefore(new JwtAuthorizationFilter(), CustomLoginFilter.class);
