@@ -30,4 +30,13 @@ public class UserDTO {
         private String email;
         private String password;
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Info {
+        private String email;
+        private String phone;
+        private String role;
+    }
 }

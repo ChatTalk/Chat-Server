@@ -57,7 +57,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult){
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
         log.info("로그인 성공 및 JWT 생성");
 
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
@@ -71,12 +71,20 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         log.info("쿠키: {}", cookie.getValue());
 
-        sendResponseMsg(response, HttpStatus.OK.value(),"로그인 성공 및 토큰 발급");
+        // UserDTO.Info 생성
+        UserDTO.Info userInfo = new UserDTO.Info(username, ((UserDetailsImpl) authResult.getPrincipal()).getUser().getPhone(), role.name());
+
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("status", HttpStatus.OK.value());
+        responseBody.put("message", "로그인 성공 및 토큰 발급");
+        responseBody.put("user", userInfo);  // 사용자 정보 추가
+
+        sendResponseMsg(response, HttpStatus.OK.value(), responseBody);
     }
 
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception){
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         log.error("로그인 실패");
 
         String errorMessage;
@@ -90,22 +98,15 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
             errorMessage = "알 수없는 오류입니다.";
         }
         log.error("로그인 실패 :" + errorMessage);
-        sendResponseMsg(response, HttpStatus.UNAUTHORIZED.value(),errorMessage);
+        sendResponseMsg(response, HttpStatus.UNAUTHORIZED.value(), errorMessage);
     }
 
-    private void sendResponseMsg(HttpServletResponse response, int statusCode, String msg){
+    private void sendResponseMsg(HttpServletResponse response, int statusCode, Object responseBody) throws IOException {
         response.setStatus(statusCode);
         response.setContentType("application/json;charset=UTF-8");
-        try {
-
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", statusCode);
-            responseBody.put("data", msg);
-
-            PrintWriter writer = response.getWriter();
+        try (PrintWriter writer = response.getWriter()) {
             writer.print(new ObjectMapper().writeValueAsString(responseBody));
             writer.flush();
-            writer.close();
         } catch(IOException e){
             log.error(e.getMessage());
         }
