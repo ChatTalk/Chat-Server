@@ -93,7 +93,6 @@ public class WebSecurityConfig {
                 .logoutSuccessHandler((req, res, auth) -> {
                     res.setStatus(HttpServletResponse.SC_OK);  // 로그아웃 성공 시 200 OK 응답
                 })
-                .deleteCookies(COOKIE_AUTH_HEADER)
         );
 
         // 필터 체인에 필터 추가 및 순서 지정

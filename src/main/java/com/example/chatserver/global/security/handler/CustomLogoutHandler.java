@@ -22,16 +22,27 @@ public class CustomLogoutHandler implements LogoutHandler {
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        String username = jwtTokenService.getUserFromToken(findAccessToken(request.getCookies())).getEmail();
+        String username = jwtTokenService.getUserFromToken(findAccessToken(request.getCookies(), response)).getEmail();
 
+        // 리프레시 토큰 삭제
         redisTemplate.delete(REDIS_REFRESH_KEY + username);
     }
 
-    private String findAccessToken(Cookie[] cookies){
+    private String findAccessToken(Cookie[] cookies, HttpServletResponse response){
         if (cookies == null) return null;
 
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(COOKIE_AUTH_HEADER)) return cookie.getValue();
+            if (cookie.getName().equals(COOKIE_AUTH_HEADER)) {
+                String token = cookie.getValue();
+
+                // 엑세스 토큰 삭제
+                cookie.setMaxAge(0);
+                cookie.setValue("");
+                cookie.setPath("/");
+                response.addCookie(cookie);
+
+                return token;
+            }
         }
         return null;
     }
