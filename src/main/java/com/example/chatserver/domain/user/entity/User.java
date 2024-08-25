@@ -1,5 +1,6 @@
 package com.example.chatserver.domain.user.entity;
 
+import com.example.chatserver.domain.user.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,4 +28,11 @@ public class User {
 
     @Column(name = "phone", nullable = false)
     private String phone;
+
+    public User(UserDTO dto, String password) {
+        this.email = dto.getEmail();
+        this.password = password;
+        this.role = dto.getRole();
+        this.phone = dto.getPhone();
+    }
 }
