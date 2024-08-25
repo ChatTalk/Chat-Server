@@ -32,12 +32,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO getUserInfo(String email) {
+        return UserMapper.toDTO(findUserByEmail(email));
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return new UserDetailsImpl(userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("회원을 찾을 수 없음.")));
     }
 
-    private boolean existUserEmail(String email){
+    @Override
+    public boolean existUserEmail(String email){
         return userRepository.findByEmail(email).isPresent();
+    }
+
+    private User findUserByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
     }
 }
