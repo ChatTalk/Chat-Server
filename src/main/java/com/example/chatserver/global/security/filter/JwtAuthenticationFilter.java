@@ -36,6 +36,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        String requestURI = request.getRequestURI();
+
+        // 인증이 필요 없는 경로를 명시적으로 설정
+        if (requestURI.startsWith("/api/users/signup") || requestURI.startsWith("/api/users/login")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         log.info("인증 시도");
         String beforeToken = findAccessToken(request.getCookies());
 

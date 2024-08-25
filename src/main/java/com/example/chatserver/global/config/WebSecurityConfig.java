@@ -96,12 +96,10 @@ public class WebSecurityConfig {
         );
 
         // 필터 체인에 필터 추가 및 순서 지정
-        http.addFilterBefore(new JwtAuthorizationFilter(),
-                CustomLoginFilter.class);
+        http.addFilterBefore(new JwtAuthorizationFilter(), CustomLoginFilter.class);
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenService, userService, userDetailsService), JwtAuthorizationFilter.class);
         http.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
         http.addFilterBefore(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
-
 
         return http.build();
     }

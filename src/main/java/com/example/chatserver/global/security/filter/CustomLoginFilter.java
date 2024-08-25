@@ -69,6 +69,8 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
         cookie.setPath("/");
         response.addCookie(cookie);
 
+        log.info("쿠키: {}", cookie.getValue());
+
         sendResponseMsg(response, HttpStatus.OK.value(),"로그인 성공 및 토큰 발급");
     }
 
