@@ -81,12 +81,7 @@ public class JwtTokenService {
      * @return 추출한 토큰 값
      */
     public String extractValue(String token){
-//        log.info("토큰 서비스에서의 토큰 추출 확인");
         return jwtUtil.extractToken(URLDecoder.decode(token, StandardCharsets.UTF_8));
-    }
-
-    private boolean isExpired(String token) {
-        return jwtUtil.isTokenExpired(token);
     }
 
     private TokenPayload createTokenPayload(String email, Date date, long seconds, UserRoleEnum role){

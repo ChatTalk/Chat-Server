@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // 그로 인해 JwtException 필터에서 곧바로 로그인 화면으로 내보내는 것
             // 즉, 엑세스토큰 유효기간 만료시, 리프레쉬 토큰을 기반으로 한 재발급 절차 추가가 필요
 
-            if(beforeToken == null) throw new JwtException("엑세스 토큰이 존재하지 않습니다.");
+            if (beforeToken == null) throw new JwtException("엑세스 토큰이 존재하지 않습니다.");
 
             String accessToken = jwtTokenService.validAccessToken(beforeToken);
             String tokenValue = jwtTokenService.extractValue(accessToken);
@@ -86,7 +86,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String findAccessToken(Cookie[] cookies){
-        if(cookies == null) return null;
+        if (cookies == null) return null;
 
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(COOKIE_AUTH_HEADER)) return cookie.getValue();
