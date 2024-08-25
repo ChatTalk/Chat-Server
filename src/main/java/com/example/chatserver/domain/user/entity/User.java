@@ -1,4 +1,4 @@
-package com.example.chatserver.user.entity;
+package com.example.chatserver.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
