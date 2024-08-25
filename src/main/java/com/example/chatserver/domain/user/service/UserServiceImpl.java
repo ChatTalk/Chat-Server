@@ -3,6 +3,7 @@ package com.example.chatserver.domain.user.service;
 import com.example.chatserver.domain.user.dto.UserDTO;
 import com.example.chatserver.domain.user.entity.User;
 import com.example.chatserver.domain.user.entity.UserDetailsImpl;
+import com.example.chatserver.domain.user.mapper.UserMapper;
 import com.example.chatserver.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +22,11 @@ public class UserServiceImpl implements UserService {
     public UserDTO createUser(UserDTO userDto) {
         if (existUserEmail(userDto.getEmail())) throw new IllegalArgumentException("이미 가입된 이메일입니다.");
 
-        return null;
+        String password = passwordEncoder.encode(userDto.getPassword());
+        User user = new User(userDto, password);
+        userRepository.save(user);
+
+        return UserMapper.toDTO(user);
     }
 
     @Override
