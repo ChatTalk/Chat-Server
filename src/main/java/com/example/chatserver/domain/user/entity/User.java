@@ -22,6 +22,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "role")
+    private UserRoleEnum role;
+
     @Column(name = "phone", nullable = false)
     private String phone;
 }
