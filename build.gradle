@@ -35,6 +35,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // JWT
+    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.3'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.3'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.3'
 }
 
 tasks.named('test') {
