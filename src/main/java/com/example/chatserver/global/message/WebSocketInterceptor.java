@@ -43,6 +43,7 @@ public class WebSocketInterceptor implements ChannelInterceptor {
     private void setAuthenticate(final StompHeaderAccessor accessor) {
         String accessToken = jwtTokenService.getAccessToken(accessor.getFirstNativeHeader(COOKIE_AUTH_HEADER));
 
+        // 좀 더 실용적인 인증 수단 마련 필요
         String email;
         try {
             jwtTokenService.validAccessToken(accessToken);
