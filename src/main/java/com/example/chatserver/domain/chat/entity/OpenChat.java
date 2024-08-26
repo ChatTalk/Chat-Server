@@ -39,6 +39,6 @@ public class OpenChat {
     public OpenChat(OpenChatDTO dto, User openUser) {
         this.title = dto.getTitle();
         this.openUser = openUser;
-        this.maxPersonnel = dto.getLimit();
+        this.maxPersonnel = dto.getMaxPersonnel();
     }
 }
