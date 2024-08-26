@@ -1,5 +1,6 @@
 package com.example.chatserver.domain.chat.entity;
 
+import com.example.chatserver.domain.chat.dto.OpenChatDTO;
 import com.example.chatserver.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -34,4 +35,10 @@ public class OpenChat {
     @Column(name = "created", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
+
+    public OpenChat(OpenChatDTO dto, User openUser) {
+        this.title = dto.getTitle();
+        this.openUser = openUser;
+        this.limit = dto.getLimit();
+    }
 }
