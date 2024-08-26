@@ -1,10 +1,14 @@
 package com.example.chatserver.domain.user.entity;
 
+import com.example.chatserver.domain.chat.entity.OpenChat;
 import com.example.chatserver.domain.user.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -29,6 +33,9 @@ public class User {
 
     @Column(name = "phone", nullable = false)
     private String phone;
+
+    @OneToMany(mappedBy = "user")
+    private List<OpenChat> openChats = new ArrayList<>();
 
     public User(UserDTO dto, String password) {
         this.email = dto.getEmail();
