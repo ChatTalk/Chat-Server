@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class OpenChatDTO {
     private String title;
-    private Integer limit;
+    private Integer maxPersonnel;
 
     @Getter
     @NoArgsConstructor
@@ -18,6 +18,6 @@ public class OpenChatDTO {
     public static class Info {
         private String title;
         private String openUsername;
-        private Integer limit;
+        private Integer maxPersonnel;
     }
 }

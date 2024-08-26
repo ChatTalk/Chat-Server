@@ -11,6 +11,6 @@ public class OpenChatMapper {
     }
 
     public static OpenChatDTO.Info toDTO(OpenChat chat, String username) {
-        return new OpenChatDTO.Info(chat.getTitle(), username, chat.getLimit());
+        return new OpenChatDTO.Info(chat.getTitle(), username, chat.getMaxPersonnel());
     }
 }

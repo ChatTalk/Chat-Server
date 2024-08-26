@@ -28,8 +28,8 @@ public class OpenChat {
     @JoinColumn(name = "user_id")
     private User openUser;
 
-    @Column(name = "limit")
-    private Integer limit;
+    @Column(name = "max_personnel")
+    private Integer maxPersonnel;
 
     @CreatedDate
     @Column(name = "created", updatable = false)
@@ -39,6 +39,6 @@ public class OpenChat {
     public OpenChat(OpenChatDTO dto, User openUser) {
         this.title = dto.getTitle();
         this.openUser = openUser;
-        this.limit = dto.getLimit();
+        this.maxPersonnel = dto.getLimit();
     }
 }
