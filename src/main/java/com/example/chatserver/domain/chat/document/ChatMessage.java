@@ -1,5 +1,6 @@
 package com.example.chatserver.domain.chat.document;
 
+import com.example.chatserver.domain.chat.dto.ChatMessageDTO;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,10 +30,10 @@ public class ChatMessage {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public ChatMessage(String chatId, String username, String message) {
-        this.chatId = chatId;
-        this.username = username;
-        this.message = message;
+    public ChatMessage(ChatMessageDTO dto) {
+        this.chatId = dto.getChatId();
+        this.username = dto.getUsername();
+        this.message = dto.getMessage();
         this.createdAt = LocalDateTime.now().format(FORMATTER);
     }
 }
