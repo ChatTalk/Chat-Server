@@ -18,6 +18,6 @@ public class JwtAccessDenyHandler implements AccessDeniedHandler {
             HttpServletResponse response,
             AccessDeniedException accessDeniedException) throws ServletException, IOException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        request.getRequestDispatcher("/login").forward(request, response);
+        response.getWriter().write("{\"error\": \"Unauthorized\"}");
     }
 }
