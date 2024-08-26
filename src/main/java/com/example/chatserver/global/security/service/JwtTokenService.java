@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -51,15 +52,11 @@ public class JwtTokenService {
      * @param token 대상 토큰 값
      * @return 기존 또는 갱신된 토큰
      */
-    public String validAccessToken(String token){
-
-        String accessToken = extractValue(token);
-        String email = jwtUtil.getUsernameFromToken(accessToken);
+    public void validAccessToken(String token){
+        String email = jwtUtil.getUsernameFromToken(token);
 
         if(!userService.existUserEmail(email))
             throw new JwtException("유효하지 않은 엑세스 토큰입니다.");
-
-        return token;
     }
 
     // 엑세스 토큰 재발급용 메소드
@@ -94,5 +91,13 @@ public class JwtTokenService {
 
         // 유효성 검증 로직 추후 추가
         return refreshToken;
+    }
+
+    public String getAccessToken(String fromHeader) {
+        return jwtUtil.getAccessToken(fromHeader);
+    }
+
+    public String getUsernameFromAccessToken(String token) {
+        return jwtUtil.getUsernameFromToken(token);
     }
 }
