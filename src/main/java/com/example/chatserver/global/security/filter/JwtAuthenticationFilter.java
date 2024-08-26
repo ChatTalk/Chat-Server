@@ -46,6 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         log.info("인증 시도");
         String beforeToken = findAccessToken(request.getCookies());
+        log.info("초기 토큰값: {}", beforeToken);
 
         try {
             // 엑세스토큰 유효기간 만료시 바로 JwtException 발생
@@ -57,6 +58,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String accessToken = jwtTokenService.validAccessToken(beforeToken);
             String tokenValue = jwtTokenService.extractValue(accessToken);
 
+            log.info("정상 확인 후, 추출된 토큰: {}", tokenValue);
+
             SecurityContext context = SecurityContextHolder.createEmptyContext();
             context.setAuthentication(createAuthentication(jwtTokenService.getUserFromToken(tokenValue).getEmail()));
             SecurityContextHolder.setContext(context);
@@ -64,6 +67,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException ex) {
             String username = jwtTokenService.getUsernameFromExpiredJwt(ex);
+            log.error("만료된 토큰 예외에서 얻어낸 username: {}", username);
 
             if (jwtTokenService.getRefreshToken(username) != null) {
 
@@ -82,7 +86,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 filterChain.doFilter(request, response);
             } else {
-                throw new IllegalStateException("리프레시 토큰이 존재하지 않습니다.");
+                throw ex;
             }
         }
     }
