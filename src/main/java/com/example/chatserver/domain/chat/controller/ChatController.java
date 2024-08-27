@@ -19,6 +19,7 @@ public class ChatController {
 
     private final RedisTemplate<String, ChatMessageDTO> messageTemplate;
 
+    // 사용자의 메세지 입력 송수신
     @MessageMapping(value = "/chat/message")
     public void message(ChatMessageDTO.Send send, Principal principal) {
         log.info("{}반 채팅방에서 클라이언트로부터 {} 회원이 메세지 전송: {}",

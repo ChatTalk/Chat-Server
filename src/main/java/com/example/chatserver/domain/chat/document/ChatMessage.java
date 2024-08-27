@@ -21,6 +21,8 @@ public class ChatMessage {
     private String id; // 도큐먼트의 아이디
     
     private String chatId; // 채팅방 아이
+
+    private ChatMessageType type; // 메세지 타입
     
     private String username; // 메세지 전송인
 
@@ -32,6 +34,7 @@ public class ChatMessage {
 
     public ChatMessage(ChatMessageDTO.Send dto, String username) {
         this.chatId = dto.getChatId();
+        this.type = ChatMessageType.MESSAGE;
         this.username = username;
         this.message = dto.getMessage();
         this.createdAt = LocalDateTime.now().format(FORMATTER);
