@@ -32,11 +32,30 @@ public class ChatMessage {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    // 송수신 메세지 생성자
     public ChatMessage(ChatMessageDTO.Send dto, String username) {
         this.chatId = dto.getChatId();
         this.type = ChatMessageType.MESSAGE;
         this.username = username;
         this.message = dto.getMessage();
+        this.createdAt = LocalDateTime.now().format(FORMATTER);
+    }
+
+    // 입장 메세지 생성자
+    public ChatMessage(ChatMessageDTO.Enter dto, String username) {
+        this.chatId = dto.getChatId();
+        this.type = ChatMessageType.ENTER;
+        this.username = username;
+        this.message = username + " 님이 입장하셨습니다.";
+        this.createdAt = LocalDateTime.now().format(FORMATTER);
+    }
+
+    // 퇴장 메세지 생성자
+    public ChatMessage(ChatMessageDTO.Leave dto, String username) {
+        this.chatId = dto.getChatId();
+        this.type = ChatMessageType.LEAVE;
+        this.username = username;
+        this.message = username + " 님이 퇴장하셨습니다.";
         this.createdAt = LocalDateTime.now().format(FORMATTER);
     }
 }

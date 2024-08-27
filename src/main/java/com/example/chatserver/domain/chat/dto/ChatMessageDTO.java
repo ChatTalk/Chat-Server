@@ -33,4 +33,18 @@ public class ChatMessageDTO {
         private String chatId;
         private String message;
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Enter {
+        private String chatId;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Leave {
+        private String chatId;
+    }
 }
