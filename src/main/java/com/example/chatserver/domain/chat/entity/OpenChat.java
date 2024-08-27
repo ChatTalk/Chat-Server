@@ -1,7 +1,6 @@
 package com.example.chatserver.domain.chat.entity;
 
 import com.example.chatserver.domain.chat.dto.OpenChatDTO;
-import com.example.chatserver.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,9 +23,8 @@ public class OpenChat {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User openUser;
+    @Column(name = "open_username")
+    private String openUsername;
 
     @Column(name = "max_personnel")
     private Integer maxPersonnel;
@@ -36,9 +34,9 @@ public class OpenChat {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
-    public OpenChat(OpenChatDTO dto, User openUser) {
+    public OpenChat(OpenChatDTO dto, String openUsername) {
         this.title = dto.getTitle();
-        this.openUser = openUser;
+        this.openUsername = openUsername;
         this.maxPersonnel = dto.getMaxPersonnel();
     }
 }

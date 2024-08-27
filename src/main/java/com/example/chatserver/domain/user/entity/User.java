@@ -34,9 +34,6 @@ public class User {
     @Column(name = "phone", nullable = false)
     private String phone;
 
-    @OneToMany(mappedBy = "openUser")
-    private List<OpenChat> openChats = new ArrayList<>();
-
     public User(UserDTO dto, String password) {
         this.email = dto.getEmail();
         this.password = password;
