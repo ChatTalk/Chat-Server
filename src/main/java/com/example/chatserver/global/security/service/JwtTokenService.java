@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -26,7 +25,7 @@ import static com.example.chatserver.global.constant.Constants.REDIS_REFRESH_KEY
 @RequiredArgsConstructor
 public class JwtTokenService {
     private final JwtUtil jwtUtil;
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, String> authTemplate;
     private final UserService userService;
     private final long ACCESS_TOKEN_EAT = 30 * 1000L; // 1H
     private final long REFRESH_TOKEN_EAT = 7 * 24 * 60 * 60 * 1000L; // 7D
@@ -42,7 +41,7 @@ public class JwtTokenService {
 
         String tokenValue = jwtUtil.createToken(createTokenPayload(email, date, REFRESH_TOKEN_EAT, role)).substring(7);
         //리프레시 토큰 발행
-        redisTemplate.opsForValue().set(REDIS_REFRESH_KEY + email, tokenValue, REFRESH_TOKEN_EAT, TimeUnit.MILLISECONDS);
+        authTemplate.opsForValue().set(REDIS_REFRESH_KEY + email, tokenValue, REFRESH_TOKEN_EAT, TimeUnit.MILLISECONDS);
 
         return jwtUtil.createToken(createTokenPayload(email, date, ACCESS_TOKEN_EAT, role));
     }
@@ -87,7 +86,7 @@ public class JwtTokenService {
 
     // 리프레쉬 토큰 반환 메소드
     public String getRefreshToken(String email) {
-        String refreshToken  = redisTemplate.opsForValue().get(REDIS_REFRESH_KEY+email);
+        String refreshToken  = authTemplate.opsForValue().get(REDIS_REFRESH_KEY+email);
 
         // 유효성 검증 로직 추후 추가
         return refreshToken;

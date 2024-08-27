@@ -1,5 +1,6 @@
 package com.example.chatserver.global.config;
 
+import com.example.chatserver.domain.chat.dto.ChatMessageDTO;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,9 +49,9 @@ public class RedisConfig {
         return new LettuceConnectionFactory(redisConfiguration, lettuceClientConfiguration);
     }
 
-    @Bean
-    public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<?, ?> redisTemplate = new RedisTemplate<>();
+    @Bean(name = "authTemplate")
+    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
 
         redisTemplate.setKeySerializer(new StringRedisSerializer());
@@ -58,6 +59,20 @@ public class RedisConfig {
 
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+
+        return redisTemplate;
+    }
+
+    @Bean(name = "messageTemplate")
+    public RedisTemplate<String, ChatMessageDTO> messageRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, ChatMessageDTO> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ChatMessageDTO.class));
+
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(ChatMessageDTO.class));
 
         return redisTemplate;
     }

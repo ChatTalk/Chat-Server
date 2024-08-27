@@ -17,15 +17,6 @@ public class ChatMessageDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Info {
-        private String chatId;
-        private String username;
-        private String message;
-    }
-
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class Send {
         private String chatId;
         private String message;

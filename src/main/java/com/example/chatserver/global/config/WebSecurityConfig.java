@@ -55,7 +55,6 @@ public class WebSecurityConfig {
     private final JwtTokenService jwtTokenService;
     private final AuthenticationConfiguration authenticationConfiguration;
     private final CustomLogoutHandler customLogoutHandler;
-    private final RedisTemplate<String, String> redisTemplate;
     // 필터단 예외
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint; // 인증 예외 커스텀 메시지 던지기
     private final JwtAccessDenyHandler jwtAccessDenyHandler; // 인가 예외 커스텀 메시지 던지기(역할별 접근권한같은)
