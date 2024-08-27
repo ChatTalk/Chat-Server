@@ -30,9 +30,9 @@ public class ChatMessage {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public ChatMessage(ChatMessageDTO dto) {
+    public ChatMessage(ChatMessageDTO.Send dto, String username) {
         this.chatId = dto.getChatId();
-        this.username = dto.getUsername();
+        this.username = username;
         this.message = dto.getMessage();
         this.createdAt = LocalDateTime.now().format(FORMATTER);
     }
