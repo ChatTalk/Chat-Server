@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -21,5 +23,12 @@ public class OpenChatServiceImpl implements OpenChatService {
         openChatRepository.save(openChat);
 
         return OpenChatMapper.toDTO(openChat, openChat.getOpenUsername());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<OpenChatDTO.Info> getAllOpenChats() {
+        return openChatRepository.findAll().stream()
+                .map(e -> OpenChatMapper.toDTO(e, e.getOpenUsername())).toList();
     }
 }
