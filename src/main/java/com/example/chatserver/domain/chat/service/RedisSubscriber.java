@@ -13,7 +13,7 @@ public class RedisSubscriber {
 
     private final SimpMessageSendingOperations messagingTemplate;
 
-    public void handleMessage(ChatMessageDTO dto) {
+    public void handleMessage(ChatMessageDTO.Info dto) {
         log.info("레디스로부터 받은 메세지: {}", dto.getMessage());
         log.info("레디스로부터 받은 메세지 보낸 사람: {}", dto.getUsername());
         log.info("레디스로부터 받은 메세지 채팅방: {}", dto.getChatId());
