@@ -22,4 +22,12 @@ public class ChatMessageDTO {
         private String username;
         private String message;
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Send {
+        private String chatId;
+        private String message;
+    }
 }
