@@ -19,13 +19,13 @@ public class OpenChatController {
 
     private final OpenChatService openChatService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<OpenChatDTO.Info> createOpenChat(@RequestBody OpenChatDTO dto, @AuthenticationPrincipal UserDetails userDetails) {
         OpenChatDTO.Info chatInfo = openChatService.createOpenChat(dto, userDetails.getUsername());
         return ResponseEntity.ok(chatInfo);
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<OpenChatDTO.Info>> getAllOpenChats() {
         List<OpenChatDTO.Info> chats = openChatService.getAllOpenChats();
         return ResponseEntity.ok(chats);
