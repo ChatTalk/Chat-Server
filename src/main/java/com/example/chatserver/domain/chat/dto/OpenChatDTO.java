@@ -16,7 +16,7 @@ public class OpenChatDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Info {
-        private Long chatId;
+        private String chatId;
         private String title;
         private String openUsername;
         private Integer maxPersonnel;
