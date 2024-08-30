@@ -23,7 +23,7 @@ import static com.example.chatserver.global.constant.Constants.REDIS_REFRESH_KEY
 @RequiredArgsConstructor
 public class CustomLogoutHandler implements LogoutHandler {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, String> authTemplate;
     private final JwtTokenService jwtTokenService;
 
     @Override
@@ -40,11 +40,11 @@ public class CustomLogoutHandler implements LogoutHandler {
                 try {
                     log.info("정상 토큰에서의 로그아웃 처리");
                     String email = jwtTokenService.getUserFromToken(decodedToken.substring(7)).getEmail();
-                    redisTemplate.delete(REDIS_REFRESH_KEY + email);
+                    authTemplate.delete(REDIS_REFRESH_KEY + email);
                 } catch (ExpiredJwtException e) {
                     log.warn("만료 토큰에서의 로그아웃 처리");
                     String email = jwtTokenService.getUsernameFromExpiredJwt(e);
-                    redisTemplate.delete(REDIS_REFRESH_KEY + email);
+                    authTemplate.delete(REDIS_REFRESH_KEY + email);
                 } catch (Exception e) {
                     log.error("Redis에서 리프레시 토큰 삭제 중 오류 발생", e);
                     throw e;

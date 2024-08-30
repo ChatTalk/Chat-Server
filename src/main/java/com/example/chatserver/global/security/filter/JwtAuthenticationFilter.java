@@ -55,8 +55,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (beforeToken == null) throw new JwtException("엑세스 토큰이 존재하지 않습니다.");
 
-            String accessToken = jwtTokenService.validAccessToken(beforeToken);
-            String tokenValue = jwtTokenService.extractValue(accessToken);
+            String tokenValue = jwtTokenService.extractValue(beforeToken);
+            jwtTokenService.validAccessToken(tokenValue);
 
             log.info("정상 확인 후, 추출된 토큰: {}", tokenValue);
 

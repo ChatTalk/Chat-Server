@@ -1,10 +1,14 @@
 package com.example.chatserver.domain.user.entity;
 
+import com.example.chatserver.domain.chat.entity.OpenChat;
 import com.example.chatserver.domain.user.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
