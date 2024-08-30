@@ -77,6 +77,20 @@ public class RedisConfig {
         return redisTemplate;
     }
 
+    @Bean(name = "subscribeTemplate")
+    public RedisTemplate<String, String> subscribeTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+
+        return redisTemplate;
+    }
+
     // 구독 관리는 동적으로 수행하기 위한 간략한 빈 등록
     @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory redisConnectionFactory) {

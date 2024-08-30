@@ -5,6 +5,7 @@ import com.example.chatserver.domain.chat.dto.ChatMessageDTO;
 import com.example.chatserver.domain.chat.service.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -14,12 +15,18 @@ import java.security.Principal;
 import static com.example.chatserver.global.constant.Constants.REDIS_CHAT_PREFIX;
 
 @Slf4j
-@RequiredArgsConstructor
 @Controller
 public class MessageController {
 
     private final RedisTemplate<String, ChatMessageDTO> messageTemplate;
+    private final RedisTemplate<String, String> subscribeRedisTemplate;
     private final RedisSubscriber redisSubscriber;
+
+    public MessageController(RedisTemplate<String, ChatMessageDTO> messageTemplate, @Qualifier("subscribeTemplate") RedisTemplate<String, String> subscribeRedisTemplate, RedisSubscriber redisSubscriber) {
+        this.messageTemplate = messageTemplate;
+        this.subscribeRedisTemplate = subscribeRedisTemplate;
+        this.redisSubscriber = redisSubscriber;
+    }
 
     // 사용자의 채팅방 입장
     @MessageMapping(value = "/chat/enter")
