@@ -9,14 +9,13 @@ import com.example.chatserver.global.security.filter.JwtAuthorizationFilter;
 import com.example.chatserver.global.security.filter.JwtExceptionFilter;
 import com.example.chatserver.global.security.handler.CustomLogoutHandler;
 import com.example.chatserver.global.security.service.JwtTokenService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -25,7 +24,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -33,12 +31,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import static com.example.chatserver.global.constant.Constants.COOKIE_AUTH_HEADER;
-import static com.example.chatserver.global.constant.Constants.REDIS_REFRESH_KEY;
 
 @Slf4j
 @Configuration
@@ -94,6 +89,7 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests(authorizeHttpRequests ->
                 authorizeHttpRequests
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users/signup").permitAll()
                         .anyRequest().authenticated()
         );
