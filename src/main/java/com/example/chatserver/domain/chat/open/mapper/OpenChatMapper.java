@@ -1,7 +1,7 @@
-package com.example.chatserver.domain.chat.mapper;
+package com.example.chatserver.domain.chat.open.mapper;
 
-import com.example.chatserver.domain.chat.dto.OpenChatDTO;
-import com.example.chatserver.domain.chat.entity.OpenChat;
+import com.example.chatserver.domain.chat.open.dto.OpenChatDTO;
+import com.example.chatserver.domain.chat.open.entity.OpenChat;
 
 public class OpenChatMapper {
 

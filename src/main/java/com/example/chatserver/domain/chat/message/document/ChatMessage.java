@@ -1,6 +1,6 @@
-package com.example.chatserver.domain.chat.document;
+package com.example.chatserver.domain.chat.message.document;
 
-import com.example.chatserver.domain.chat.dto.ChatMessageDTO;
+import com.example.chatserver.domain.chat.message.dto.ChatMessageDTO;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

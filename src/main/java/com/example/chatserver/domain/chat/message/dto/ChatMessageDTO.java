@@ -1,7 +1,7 @@
-package com.example.chatserver.domain.chat.dto;
+package com.example.chatserver.domain.chat.message.dto;
 
-import com.example.chatserver.domain.chat.document.ChatMessage;
-import com.example.chatserver.domain.chat.document.ChatMessageType;
+import com.example.chatserver.domain.chat.message.document.ChatMessage;
+import com.example.chatserver.domain.chat.message.document.ChatMessageType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

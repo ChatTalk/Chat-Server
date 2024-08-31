@@ -1,7 +1,7 @@
-package com.example.chatserver.domain.chat.controller;
+package com.example.chatserver.domain.chat.open.controller;
 
-import com.example.chatserver.domain.chat.dto.OpenChatDTO;
-import com.example.chatserver.domain.chat.service.OpenChatService;
+import com.example.chatserver.domain.chat.open.dto.OpenChatDTO;
+import com.example.chatserver.domain.chat.open.service.OpenChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

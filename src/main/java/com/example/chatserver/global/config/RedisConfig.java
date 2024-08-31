@@ -1,6 +1,6 @@
 package com.example.chatserver.global.config;
 
-import com.example.chatserver.domain.chat.dto.ChatMessageDTO;
+import com.example.chatserver.domain.chat.message.dto.ChatMessageDTO;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
 import org.springframework.beans.factory.annotation.Value;

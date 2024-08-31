@@ -1,6 +1,6 @@
-package com.example.chatserver.domain.chat.repository;
+package com.example.chatserver.domain.chat.message.repository;
 
-import com.example.chatserver.domain.chat.document.ChatMessage;
+import com.example.chatserver.domain.chat.message.document.ChatMessage;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

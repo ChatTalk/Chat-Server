@@ -1,6 +1,6 @@
-package com.example.chatserver.domain.chat.service;
+package com.example.chatserver.domain.chat.open.service;
 
-import com.example.chatserver.domain.chat.dto.OpenChatDTO;
+import com.example.chatserver.domain.chat.open.dto.OpenChatDTO;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package com.example.chatserver.domain.chat.service;
+package com.example.chatserver.domain.chat.open.service;
 
-import com.example.chatserver.domain.chat.dto.OpenChatDTO;
-import com.example.chatserver.domain.chat.entity.OpenChat;
-import com.example.chatserver.domain.chat.mapper.OpenChatMapper;
-import com.example.chatserver.domain.chat.repository.OpenChatRepository;
+import com.example.chatserver.domain.chat.open.dto.OpenChatDTO;
+import com.example.chatserver.domain.chat.open.entity.OpenChat;
+import com.example.chatserver.domain.chat.open.mapper.OpenChatMapper;
+import com.example.chatserver.domain.chat.open.repository.OpenChatRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,9 +1,8 @@
-package com.example.chatserver.domain.chat.controller;
+package com.example.chatserver.domain.chat.message.controller;
 
-import com.example.chatserver.domain.chat.document.ChatMessage;
-import com.example.chatserver.domain.chat.dto.ChatMessageDTO;
-import com.example.chatserver.domain.chat.service.RedisSubscriber;
-import lombok.RequiredArgsConstructor;
+import com.example.chatserver.domain.chat.message.document.ChatMessage;
+import com.example.chatserver.domain.chat.message.dto.ChatMessageDTO;
+import com.example.chatserver.domain.chat.message.service.RedisSubscriber;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -1,4 +1,4 @@
-package com.example.chatserver.domain.chat.dto;
+package com.example.chatserver.domain.chat.open.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

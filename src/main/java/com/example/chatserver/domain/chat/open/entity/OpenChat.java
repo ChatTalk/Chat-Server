@@ -1,6 +1,6 @@
-package com.example.chatserver.domain.chat.entity;
+package com.example.chatserver.domain.chat.open.entity;
 
-import com.example.chatserver.domain.chat.dto.OpenChatDTO;
+import com.example.chatserver.domain.chat.open.dto.OpenChatDTO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

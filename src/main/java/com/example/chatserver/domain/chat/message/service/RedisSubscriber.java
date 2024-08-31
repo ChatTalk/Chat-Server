@@ -1,4 +1,4 @@
-package com.example.chatserver.domain.chat.service;
+package com.example.chatserver.domain.chat.message.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
