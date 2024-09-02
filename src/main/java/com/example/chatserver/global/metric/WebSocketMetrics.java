@@ -1,42 +1,37 @@
 package com.example.chatserver.global.metric;
 
-
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
-import org.springframework.context.event.EventListener;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.messaging.SessionConnectEvent;
-import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import org.springframework.web.socket.config.WebSocketMessageBrokerStats;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
+@Slf4j
 @Component
-public class WebSocketMetrics {
+@RequiredArgsConstructor
+// 스프링 내의 모든 빈들이 올라가고 실행시키기 위한 ContextRefreshedEvent 제네릭 할당
+// 그 이벤트가 발생했을 때의 동작(웹소켓 관련 메트릭 수집)을 위한 ApplicationListener 구현
+public class WebSocketMetrics implements ApplicationListener<ContextRefreshedEvent> {
 
-    // 현재 활성화된 웹소켓 연결 수를 추적
-    private final AtomicInteger activeConnections;
-    // 총 송수신된 메시지 수를 추적
-    private final Counter messageCounter;
+    private final WebSocketMessageBrokerStats webSocketMessageBrokerStats;
+    private final WebSocketMetricsParser webSocketMetricsParser;
 
-    public WebSocketMetrics(MeterRegistry meterRegistry) {
-        // 현재 활성화된 연결 수를 카운트하는 Gauge
-        this.activeConnections = meterRegistry.gauge("websocket.active.connections", new AtomicInteger(0));
-
-        // 송수신 메시지 수를 카운트하는 Counter
-        this.messageCounter = meterRegistry.counter("websocket.messages.total");
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        log.info("WebSocketMetrics started");
     }
 
-    @EventListener
-    public void handleWebSocketConnectListener(SessionConnectEvent event) {
-        activeConnections.incrementAndGet();
+    @Override
+    public boolean supportsAsyncExecution() {
+        return ApplicationListener.super.supportsAsyncExecution();
     }
 
-    @EventListener
-    public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-        activeConnections.decrementAndGet();
-    }
-
-    public void incrementMessageCounter() {
-        messageCounter.increment();
+    @Scheduled(fixedRate = 5000) // 5초마다 실행
+    public void collectMetrics() {
+        String webSocketLog = webSocketMessageBrokerStats.toString();
+        log.info("테스트: {}", webSocketLog);
+        webSocketMetricsParser.parseAndRegisterMetrics(webSocketLog);
     }
 }
