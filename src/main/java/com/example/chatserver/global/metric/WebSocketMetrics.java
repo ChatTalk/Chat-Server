@@ -28,10 +28,10 @@ public class WebSocketMetrics implements ApplicationListener<ContextRefreshedEve
         return ApplicationListener.super.supportsAsyncExecution();
     }
 
-    @Scheduled(fixedRate = 5000) // 5초마다 실행
-    public void collectMetrics() {
-        String webSocketLog = webSocketMessageBrokerStats.toString();
-        log.info("테스트: {}", webSocketLog);
-        webSocketMetricsParser.parseAndRegisterMetrics(webSocketLog);
-    }
+//    @Scheduled(fixedRate = 5000) // 5초마다 실행
+//    public void collectMetrics() {
+//        String webSocketLog = webSocketMessageBrokerStats.toString();
+//        log.info("테스트: {}", webSocketLog);
+//        webSocketMetricsParser.parseAndRegisterMetrics(webSocketLog);
+//    }
 }
