@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        log.info("인증 시도");
+        log.info("인증 시도: {}", requestURI);
         String beforeToken = findAccessToken(request.getCookies());
         log.info("초기 토큰값: {}", beforeToken);
 
