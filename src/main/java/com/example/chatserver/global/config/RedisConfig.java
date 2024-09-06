@@ -92,6 +92,7 @@ public class RedisConfig {
     }
 
     // 구독 관리는 동적으로 수행하기 위한 간략한 빈 등록
+    // 얘는 redis pub sub 에서만 쓰이고 redis streams 에서는 활용 x
     @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory redisConnectionFactory) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();

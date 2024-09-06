@@ -27,7 +27,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry
                 .addEndpoint("/stomp/chat")
                 .setAllowedOriginPatterns("*")
-                .withSockJS(); // 아니 얘 포스트맨 테스트 할 때는 무조건 없애야 하네... 말썽쟁이...
+                .withSockJS(); // 아니 얘 포스트맨 + 로커스트 테스트 할 때는 무조건 없애야 하네... 말썽쟁이...
     }
 
     @Override
