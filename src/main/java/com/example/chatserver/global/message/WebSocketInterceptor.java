@@ -32,7 +32,11 @@ public class WebSocketInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
+        log.info("인터셉터 접근 확인용");
+
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+
+        log.info("메세지 헤더 확인 ㅠㅠ: {}", String.valueOf(accessor.getMessageHeaders()));
 
         if (accessor != null && StompCommand.CONNECT.equals(accessor.getCommand())) {
             this.setAuthenticate(accessor);
@@ -41,13 +45,21 @@ public class WebSocketInterceptor implements ChannelInterceptor {
     }
 
     private void setAuthenticate(final StompHeaderAccessor accessor) {
-        String accessToken = jwtTokenService.getAccessToken(accessor.getFirstNativeHeader(COOKIE_AUTH_HEADER));
+        String firstValue = accessor.getFirstNativeHeader(COOKIE_AUTH_HEADER);
+        log.info("초기 엑세스 토큰 값: {}", firstValue);
+        String accessTokenValue = jwtTokenService.getAccessToken(firstValue);
+        log.info("바로 가지고 온 엑세스 토큰 값: {}", accessTokenValue);
+
+//        String prefix = "Bearer ";
+//        String accessToken = accessTokenValue.substring(prefix.length());
+//
+//        log.info("인터셉터 인증 객체 엑세스 토큰 확인: {}", accessToken);
 
         // 좀 더 실용적인 인증 수단 마련 필요
         String email;
         try {
-            jwtTokenService.validAccessToken(accessToken);
-            email = jwtTokenService.getUsernameFromAccessToken(accessToken);
+            jwtTokenService.validAccessToken(accessTokenValue);
+            email = jwtTokenService.getUsernameFromAccessToken(accessTokenValue);
         } catch (ExpiredJwtException ex) {
             email = jwtTokenService.getUsernameFromExpiredJwt(ex);
         }
