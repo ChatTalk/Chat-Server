@@ -7,17 +7,17 @@ import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Getter
-@Document(collection = "chatMessage")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+////@Document(collection = "chatMessage")
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatMessage {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id; // 도큐먼트의 아이디
     
     private String chatId; // 채팅방 아이
